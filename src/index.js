@@ -1,21 +1,22 @@
-const express = require('express')
-const app = express()
-const routes = require('./routes')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+const express = require('express');
+const app = express();
+const routes = require('./routes');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-require('dotenv').config({path:'.env'})
+require('dotenv').config({ path: '.env' });
 
+// Crear la conexión a MongoDB
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb+srv://santicab1601:admin123@cluster0.edzxwhl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+.then(() => console.log('Conectado a MongoDB Atlas'))
+.catch(err => console.error('Error al conectar a MongoDB Atlas:', err));
 
-//Crear la conexión a mongodb
-mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/gotranqui', {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-})
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:true}))
+app.use('/', routes());
 
-app.use('/',routes())
-
-app.listen(process.env.PUERTO)
-
+app.listen(process.env.PUERTO, () => {
+  console.log(`Servidor escuchando en el puerto ${process.env.PUERTO}`);
+});
