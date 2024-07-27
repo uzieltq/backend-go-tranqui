@@ -8,7 +8,7 @@ require('dotenv').config({ path: '.env' });
 
 // Crear la conexión a MongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb+srv://GoTranqui:Trabajo1@cluster0.fvylswl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.MONGODB_URI)
 
 .then(() => console.log('Conectado a MongoDB Atlas'))
 .catch(err => console.error('Error al conectar a MongoDB Atlas:', err));
