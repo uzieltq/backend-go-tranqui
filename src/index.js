@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', routes());
 
-app.listen(process.env.PUERTO, () => {
-  console.log(`Servidor escuchando en el puerto ${process.env.PUERTO}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
