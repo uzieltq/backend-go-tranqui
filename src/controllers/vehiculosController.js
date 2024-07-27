@@ -2,7 +2,7 @@ const Vehiculo = require('../models/Vehicles')
 
 exports.listarVehiculos = async(req,res,next) => {
     try {
-        const vehiculos = await Vehiculo.find({})
+        const vehiculos = await Vehiculo.find({}).populate('conductor').
         res.json(vehiculos)
 
     } catch (error) {
