@@ -1,17 +1,17 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const ubicacionSchema = new Schema({
-    type: {
-        type: String,
-        enum: ['Point'],
-        required: true
-      },
-      coordinates: {
-        type: [Number],
-        required: true
-      }
-})
+// const ubicacionSchema = new Schema({
+//     type: {
+//         type: String,
+//         enum: ['Point'],
+//         required: true
+//       },
+//       coordinates: {
+//         type: [Number],
+//         required: true
+//       }
+// })
 
 const tripsSchema = new Schema({
   fecha : {
@@ -27,11 +27,11 @@ const tripsSchema = new Schema({
      ref:'Vehiculos'
    },
    origen: {
-    type: ubicacionSchema,
+    type: { lat: Number, lng: Number },
     required:true
    },
    destino: {
-    type: ubicacionSchema,
+    type: { lat: Number, lng: Number },
     required:true
    },
    pago: {
