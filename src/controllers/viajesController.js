@@ -2,7 +2,7 @@ const Viaje = require('../models/Trips')
 
 exports.listarViajes = async(req,res,next) => {
     try {
-        const viajes = await Viaje.find({estado: 'Disponible'}).populate('usuario').populate('vehiculo')
+        const viajes = await Viaje.find({}).populate('usuario').populate('vehiculo')
         res.status(200).json({
             status:'success',
             message:'Viajes listados correctamente',
@@ -61,9 +61,17 @@ exports.actualizarViaje = async(req,res,next) => {
             new: true,
         }).populate('usuario')
         .populate('vehiculo');
-        res.json(viaje)
+        res.status(200).json({
+            status:'success',
+            message: 'Se actualizó el estado del viaje'
+        });
     } catch (error) {
         console.log(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Ocurrió un error al actualizar el viaje',
+            error: error.message
+        });
         next();
     }
 }

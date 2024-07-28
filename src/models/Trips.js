@@ -17,7 +17,6 @@ const tripsSchema = new Schema({
   fecha : {
     type: Date,
     default: Date.now,
-    required: true
   },
    usuario: {
     type: Schema.ObjectId,
