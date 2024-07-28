@@ -17,6 +17,7 @@ module.exports = function () {
     router.put('vehiculos/:vehiculoId',vehiculosController.actualizarVehiculo)
 
     router.get('/viajes',viajesController.listarViajes),
+    router.get('/viajes/:usuarioId', viajesController.listarViajePorUsuario)
     router.post('/viajes',viajesController.nuevoViaje)
     router.put('/viajes/:idViaje',viajesController.actualizarViaje)
 

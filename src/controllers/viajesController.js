@@ -9,6 +9,18 @@ exports.listarViajes = async(req,res,next) => {
         next();
     }
 }
+
+exports.listarViajePorUsuario = async(req,res,next) => {
+    try {
+      const usuarioId = req.params.usuarioId;
+      const viajesUsuario = await Viaje.find({usuario: usuarioId}).populate('usuario').populate('vehiculo');
+      res.json(viajesUsuario);
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
+
 exports.nuevoViaje = async(req,res,next) => {
     const viaje = new Viaje(req.body)
     try {
