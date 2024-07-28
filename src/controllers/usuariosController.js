@@ -6,6 +6,7 @@ exports.nuevoUsuario = async(req,res,next) => {
     try {
         await usuario.save()
         res.json({mensaje:'Se agregó un nuevo usuario'});
+        
     } catch (error) {
         res.send(error);
         next();
