@@ -38,6 +38,10 @@ const tripsSchema = new Schema({
     type:String,
     required:true
    },
+   precio:{
+    type: Number,
+    required: true
+   },
    estado: {
     type:String,
    }
