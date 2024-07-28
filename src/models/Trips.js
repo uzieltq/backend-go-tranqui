@@ -27,13 +27,25 @@ const tripsSchema = new Schema({
      ref:'Vehiculos'
    },
    origen: {
-    type: { lat: Number, lng: Number },
-    required:true
-   },
-   destino: {
-    type: { lat: Number, lng: Number },
-    required:true
-   },
+    lat: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
+  },
+  destino: {
+    lat: {
+      type: Number,
+      required: true,
+    },
+    lng: {
+      type: Number,
+      required: true,
+    },
+  },
    pago: {
     type:String,
     required:true
