@@ -35,6 +35,10 @@ const tripsSchema = new Schema({
     type: ubicacionSchema,
     required:true
    },
+   pago: {
+    type:String,
+    required:true
+   },
    estado: {
     type:String,
    }

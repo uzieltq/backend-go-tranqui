@@ -2,21 +2,45 @@ const Viaje = require('../models/Trips')
 
 exports.listarViajes = async(req,res,next) => {
     try {
-        const viajes = await Viaje.find({}).populate('usuario').populate('vehiculo')
-        res.json(viajes)
+        const viajes = await Viaje.find({estado: 'Disponible'}).populate('usuario').populate('vehiculo')
+        res.status(200).json({
+            status:'success',
+            message:'Viajes listados correctamente',
+            data: viajes
+        });
     } catch(error){
         console.log(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'No se encontraron registros de los viajes',
+            error: error.message
+        });
         next();
     }
 }
 
 exports.listarViajePorUsuario = async(req,res,next) => {
     try {
-      const usuarioId = req.params.usuarioId;
-      const viajesUsuario = await Viaje.find({usuario: usuarioId}).populate('usuario').populate('vehiculo');
-      res.json(viajesUsuario);
+      const usuario = req.params.usuarioId;
+      if (!usuario) {
+            return res.status(500).json({
+                status: 'error',
+                message: 'No existe el usuario'
+        });
+      }
+      const viajesUsuario = await Viaje.find({usuario: usuario}).populate('usuario').populate('vehiculo');
+      res.status(200).json({
+        status:'success',
+        message:'Viajes listados correctamente',
+        data:viajesUsuario
+      });
     } catch (error) {
         console.log(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'No se encontraron viajes del usuario',
+            error: error.message
+        });
         next();
     }
 }
