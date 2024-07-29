@@ -18,7 +18,7 @@ exports.nuevoRating = async (req, res, next) => {
             });
         }
 
-        // Obtener el ID del vehículo y usuario
+        // Obtener el ID del vehículo y usuario explciacion 
         const usuarioId = viaje.usuario;
         const vehiculoId = viaje.vehiculo;
 
