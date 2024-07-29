@@ -138,13 +138,6 @@ exports.actualizarViaje = async (req, res, next) => {
         }
 
 
-        if (viaje.vehiculo) {
-            await Vehiculos.findByIdAndUpdate(
-                viaje.vehiculo._id,
-                { estado: 'Disponible' } 
-            );
-        }
-
         if ((estado === 'Finalizado' || estado === 'Cancelado')  && viaje.vehiculo) {
             await Vehiculos.findByIdAndUpdate(
                 viaje.vehiculo._id,
