@@ -4,6 +4,7 @@ const usuariosController = require('../controllers/usuariosController')
 const conductoresController = require('../controllers/conductoresController')
 const vehiculosController = require('../controllers/vehiculosController')
 const viajesController = require('../controllers/viajesController')
+const ratingsController = require('../controllers/ratingsController')
 
 module.exports = function () {
     router.get("/",(req, res) => {
@@ -21,6 +22,8 @@ module.exports = function () {
     router.post('/viajes',viajesController.nuevoViaje)
 
     router.put('/viajes/:idViaje', viajesController.actualizarViaje);
+
+    router.post('/ratings',ratingsController.nuevoRating)
 
     return router
 }
