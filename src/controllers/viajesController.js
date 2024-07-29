@@ -1,5 +1,6 @@
 const Viaje = require('../models/Trips')
 const Usuarios = require('../models/Users')
+const Vehiculos = require('../models/Vehicles')
 
 exports.listarViajes = async(req,res,next) => {
     try {
@@ -112,6 +113,20 @@ exports.nuevoViaje = async (req, res, next) => {
             });
         }
 
+        // Buscar el vehículo por ID
+        const vehiculoEncontrado = await Vehiculos.findById(vehiculo);
+
+        if (!vehiculoEncontrado) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Vehículo no encontrado'
+            });
+        }
+
+        // Actualizar el estado del vehículo a "en ruta" o "ocupado"
+        vehiculoEncontrado.estado = 'En ruta'; // Cambia "en ruta" por el estado que necesites
+        await vehiculoEncontrado.save();
+
         // Crear un nuevo viaje con el id del usuario de MongoDB
         const viaje = new Viaje({
             usuario: usuario._id,
@@ -141,15 +156,41 @@ exports.nuevoViaje = async (req, res, next) => {
     }
 };
 
-exports.actualizarViaje = async(req,res,next) => {
+
+
+
+exports.actualizarViaje = async (req, res, next) => {
+    const { idViaje } = req.params;
+    const { estado } = req.body;
+
     try {
-        let viaje = await Viaje.findOneAndUpdate({_id: req.params.idViaje}, req.body, {
-            new: true,
-        }).populate('usuario')
+        // Actualizar el estado del viaje
+        let viaje = await Viaje.findOneAndUpdate(
+            { _id: idViaje },
+            { estado: estado }, 
+            { new: true }
+        ).populate('usuario')
         .populate('vehiculo');
+
+        if (!viaje) {
+            return res.status(404).json({
+                status: 'error',
+                message: 'Viaje no encontrado'
+            });
+        }
+
+
+        if (estado === 'Finalizado' && viaje.vehiculo) {
+            await Vehiculos.findByIdAndUpdate(
+                viaje.vehiculo._id,
+                { estado: 'Disponible' } 
+            );
+        }
+
         res.status(200).json({
-            status:'success',
-            message: 'Se actualizó el estado del viaje'
+            status: 'success',
+            message: 'Operación exitosa!!',
+            data: viaje._id
         });
     } catch (error) {
         console.log(error);
@@ -160,4 +201,4 @@ exports.actualizarViaje = async(req,res,next) => {
         });
         next();
     }
-}
+};

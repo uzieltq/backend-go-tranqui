@@ -19,7 +19,8 @@ module.exports = function () {
     router.get('/viajes',viajesController.listarViajes),
     router.get('/viajes/:usuarioId', viajesController.listarViajePorUsuario)
     router.post('/viajes',viajesController.nuevoViaje)
-    router.put('/viajes/:idViaje',viajesController.actualizarViaje)
+
+    router.put('/viajes/:idViaje', viajesController.actualizarViaje);
 
     return router
 }
