@@ -21,34 +21,6 @@ exports.listarViajes = async(req,res,next) => {
     }
 }
 
-// exports.listarViajePorUsuario = async(req,res,next) => {
-//     try {
-//       const usuario = req.params.usuarioId;
-//       if (!usuario) {
-//             return res.status(500).json({
-//                 status: 'error',
-//                 message: 'No existe el usuario'
-//         });
-//       }
-//       const viajesUsuario = await Viaje.find({usuario: usuario}).populate('usuario').populate('vehiculo');
-//       res.status(200).json({
-//         status:'success',
-//         message:'Viajes listados correctamente',
-//         data:viajesUsuario
-//       });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({
-//             status: 'error',
-//             message: 'No se encontraron viajes del usuario',
-//             error: error.message
-//         });
-//         next();
-//     }
-// }
-
-
-
 exports.listarViajePorUsuario = async (req, res, next) => {
     try {
         const uid = req.params.usuarioId; // Obtener el uid de Firebase desde los parámetros de la solicitud
@@ -88,17 +60,6 @@ exports.listarViajePorUsuario = async (req, res, next) => {
 };
 
 
-// exports.nuevoViaje = async(req,res,next) => {
-//     const viaje = new Viaje(req.body)
-//     try {
-//         await viaje.save();
-//         res.json({mensaje: 'Viaje correctamente agregado a la lista'})
-//     } catch (error) {
-//         console.log(error);
-//         next();
-//     }
-// }
-
 exports.nuevoViaje = async (req, res, next) => {
     const { uid, vehiculo, origen, destino, pago, precio, estado, fecha } = req.body;
 
@@ -123,8 +84,7 @@ exports.nuevoViaje = async (req, res, next) => {
             });
         }
 
-        // Actualizar el estado del vehículo a "en ruta" o "ocupado"
-        vehiculoEncontrado.estado = 'En ruta'; // Cambia "en ruta" por el estado que necesites
+        vehiculoEncontrado.estado = 'En ruta'; 
         await vehiculoEncontrado.save();
 
         // Crear un nuevo viaje con el id del usuario de MongoDB
@@ -157,8 +117,6 @@ exports.nuevoViaje = async (req, res, next) => {
 };
 
 
-
-
 exports.actualizarViaje = async (req, res, next) => {
     const { idViaje } = req.params;
     const { estado } = req.body;
@@ -180,7 +138,7 @@ exports.actualizarViaje = async (req, res, next) => {
         }
 
 
-        if (estado === 'Finalizado' && viaje.vehiculo) {
+        if (viaje.vehiculo) {
             await Vehiculos.findByIdAndUpdate(
                 viaje.vehiculo._id,
                 { estado: 'Disponible' } 

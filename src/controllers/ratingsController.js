@@ -49,6 +49,7 @@ exports.nuevoRating = async (req, res, next) => {
         const nuevoRating = new Ratings({
             usuario: usuarioId,
             conductor: conductor._id,
+            viaje: viaje._id,
             rating,
             comentario,
         });
@@ -59,10 +60,10 @@ exports.nuevoRating = async (req, res, next) => {
         const ratings = await Ratings.find({ conductor: conductor._id });
         const totalRatings = ratings.reduce((sum, r) => sum + r.rating, 0);
         const cantidadDeViajes = ratings.length;
-        const nuevoPromedioRating = totalRatings / cantidadDeViajes;
+        const nuevoPromedioRating = (totalRatings / cantidadDeViajes).toFixed(2);
 
         // Actualizar el rating y cantidad de viajes del conductor
-        conductor.rating = nuevoPromedioRating;
+        conductor.rating = parseFloat(nuevoPromedioRating); 
         conductor.cantidad_viajes = cantidadDeViajes;
         await conductor.save();
 
