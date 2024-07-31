@@ -41,7 +41,7 @@ exports.listarViajePorUsuario = async (req, res, next) => {
         }
 
         // Buscar los viajes del usuario utilizando el ObjectId de MongoDB del usuario
-        const viajesUsuario = await Viaje.find({ usuario: usuario._id }).populate('usuario').populate('vehiculo');
+        const viajesUsuario = await Viaje.find({ usuario: usuario._id }).populate('usuario').populate('vehiculo').sort({ fecha: -1 });;
 
         res.status(200).json({
             status: 'success',
@@ -96,7 +96,7 @@ exports.nuevoViaje = async (req, res, next) => {
             pago,
             precio,
             estado,
-            fecha: fecha || Date.now() // Usar la fecha proporcionada o la fecha actual si no se proporciona
+            fecha: fecha || Date.now() 
         });
 
         await viaje.save();
