@@ -49,7 +49,7 @@ exports.nuevaIncidencia = async (req, res, next) => {
         res.status(200).json({
             status: 'success',
             message: 'Incidencia registrada exitosamente',
-            data: nuevoReporte
+            data: nuevoReporte._id
         });
     } catch (error) {
         console.error(error);
