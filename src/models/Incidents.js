@@ -12,7 +12,7 @@ const IncidentSchema = new Schema({
         ref: 'Usuarios',
         required: true
     },
-    imagenes: [String], // URLs de las imágenes reportadas
+    imagenes: [String], 
     comentario: {
         type: String,
         trim: true,
