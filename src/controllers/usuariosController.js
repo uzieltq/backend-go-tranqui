@@ -11,7 +11,7 @@ exports.nuevoUsuario = async (req, res, next) => {
             return res.status(200).json({
                 status: 'success',
                 message: 'El usuario ya está registrado con ese UID',
-                data: usuarioExistente._id // Devolver el ID de MongoDB
+                data: usuarioExistente._id 
             });
         }
 
@@ -22,7 +22,7 @@ exports.nuevoUsuario = async (req, res, next) => {
         res.status(200).json({
             status: 'success',
             message: 'Se añadió un nuevo usuario',
-            data: usuario._id // Devolver el ID de MongoDB
+            data: usuario._id 
         });
     } catch (error) {
         res.status(500).json({

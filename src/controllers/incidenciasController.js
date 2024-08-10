@@ -6,13 +6,6 @@ exports.nuevaIncidencia = async (req, res, next) => {
     const { uid, idViaje, imagenes, comentario } = req.body;
 
     try {
-        // Validar que los datos estén presentes
-        if (!idViaje || !comentario) {
-            return res.status(400).json({
-                status: 'error',
-                message: 'El ID del viaje y el comentario son necesarios'
-            });
-        }
 
         // Buscar el viaje por idViaje
         const viaje = await Viajes.findById(idViaje);
@@ -24,7 +17,6 @@ exports.nuevaIncidencia = async (req, res, next) => {
             });
         }
 
-
         // Buscar el usuario por uid de Firebase
         const usuario = await Usuarios.findOne({ uid });
 
@@ -35,8 +27,7 @@ exports.nuevaIncidencia = async (req, res, next) => {
             });
         }
 
-
-        // Crear el nuevo reporte
+        // Crear el nuevo reporte de incidencia
         const nuevoReporte = new Incidents({
             viaje: viaje._id,
             usuario: usuario._id,

@@ -4,28 +4,10 @@ const Vehiculos = require('../models/Vehicles')
 const Ratings = require('../models/Ratings')
 const Conductores = require('../models/Drivers')
 
-exports.listarViajes = async(req,res,next) => {
-    try {
-        const viajes = await Viaje.find({}).populate('usuario').populate('vehiculo')
-        res.status(200).json({
-            status:'success',
-            message:'Viajes listados correctamente',
-            data: viajes
-        });
-    } catch(error){
-        console.log(error);
-        res.status(500).json({
-            status: 'error',
-            message: 'No se encontraron registros de los viajes',
-            error: error.message
-        });
-        next();
-    }
-}
 
 exports.listarViajePorUsuario = async (req, res, next) => {
     try {
-        const uid = req.params.usuarioId; // Obtener el uid de Firebase desde los parámetros de la solicitud
+        const uid = req.params.usuarioId; // Obtener el uid del usuario
         if (!uid) {
             return res.status(400).json({
                 status: 'error',
@@ -33,7 +15,7 @@ exports.listarViajePorUsuario = async (req, res, next) => {
             });
         }
 
-        // Buscar el usuario en la colección de usuarios utilizando el uid de Firebase
+        // Buscar el usuario en la colección de usuarios
         const usuario = await Usuarios.findOne({ uid });
         if (!usuario) {
             return res.status(404).json({
@@ -42,7 +24,7 @@ exports.listarViajePorUsuario = async (req, res, next) => {
             });
         }
 
-        // Buscar los viajes del usuario utilizando el ObjectId de MongoDB del usuario
+        // Buscar los viajes del usuario
         const viajesUsuario = await Viaje.find({ usuario: usuario._id }).sort({ fecha: -1 });;
 
         res.status(200).json({
@@ -86,10 +68,11 @@ exports.nuevoViaje = async (req, res, next) => {
             });
         }
 
+        //Actualizar el estado del vehículo asigando al viaje
         vehiculoEncontrado.estado = 'En ruta'; 
         await vehiculoEncontrado.save();
 
-        // Crear un nuevo viaje con el id del usuario de MongoDB
+        // Registrar los datos del nuevo viaje 
         const viaje = new Viaje({
             usuario: usuario._id,
             vehiculo,
@@ -104,8 +87,8 @@ exports.nuevoViaje = async (req, res, next) => {
         await viaje.save();
         res.status(200).json({
             status: 'success',
-            message: 'Viaje correctamente agregado a la lista',
-            data: viaje._id // Incluir el id del viaje en la respuesta
+            message: 'Viaje registrado correctamente',
+            data: viaje._id 
         });
     } catch (error) {
         console.log(error);
@@ -125,7 +108,7 @@ exports.actualizarViaje = async (req, res, next) => {
 
     try {
         // Actualizar el estado del viaje
-        let viaje = await Viaje.findOneAndUpdate(
+        const viaje = await Viaje.findOneAndUpdate(
             { _id: idViaje },
             { estado: estado }, 
             { new: true }

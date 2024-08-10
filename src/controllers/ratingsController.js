@@ -8,7 +8,7 @@ exports.nuevoRating = async (req, res, next) => {
 
     try {
 
-        // Buscar el viaje por idTrip
+        // Buscar el viaje
         const viaje = await Viajes.findById(idTrip);
 
         if (!viaje) {
@@ -18,7 +18,7 @@ exports.nuevoRating = async (req, res, next) => {
             });
         }
 
-        // Obtener el ID del vehículo y usuario explciacion 
+        // Obtener el ID del vehículo y usuario mediante los datos del viaje
         const usuarioId = viaje.usuario;
         const vehiculoId = viaje.vehiculo;
 
